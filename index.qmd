@@ -87,6 +87,6 @@ ETH |>
   theme(legend.position = "bottom")+
   annotation_scale(location = "bl")+
   annotation_north_arrow(location = "br", which_north = "true")+
-  labs(title = "Ferrugem do café na Etiópia", Longitude = "x", Latitude = "y", subtitle = "levantamento em fazendas", caption = "Fonte: Nogueira PTS et al. (2025)", colour = "incidência(%)")
+  labs(title = "Ferrugem do café na Etiópia", x = "Longitude", y = "Latitude", subtitle = "levantamento em fazendas", caption = "Fonte: Nogueira PTS et al. (2025)", colour = "Incidência(%)")
 ggsave("mapa_etiopia.png", bg= "white", width = 10 )
 ```
