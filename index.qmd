@@ -1,0 +1,92 @@
+---
+Title: "Coffe rust"
+author: Pedro Thiago Santos Nogueira 
+date: 2025-05-21
+format:
+  html:
+    toc: true
+warning: false
+message: false
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Apresentação
+
+O conjutno de dados sera o da ferrugem do café na Etiópia, aquivo em nuvem
+
+Importar dados
+
+Usaremos a função gsheet2tbl() do pacote \[gsheet\]
+
+```{r}
+library(gsheet)
+cr <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1871397229#gid=1871397229")
+
+
+```
+
+# Visualiza os dados
+
+Usaremos função datatable() do pacote \[DT\]
+
+```{r}
+library(DT)#tabela interativa
+datatable(cr)
+```
+
+# Graficos
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+cr |> 
+  ggplot(aes (lon,lat))+
+  geom_point()
+```
+
+# Criando mapas
+
+```{r}
+library(rnaturalearth)
+library(remotes)
+
+remotes::install_github("ropensci/rnaturalearthhires")
+
+ETH <- ne_states(country = "Ethiopia", returnclass = "sf")
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(ggspatial)
+ETH |> 
+  ggplot()+
+  geom_sf(fill="gray80")+
+  geom_point(data=cr, aes(lon,lat, colour = inc))+
+  scale_color_viridis_c()+
+  theme_minimal()+
+  theme(legend.position = "bottom")+
+  annotation_scale(location = "bl")+
+  annotation_north_arrow(location = "br", which_north = "true")+
+  labs(title = "Ferrugem do café na Etiópia", Longitude = "x", Latitude = "y", subtitle = "levantamento em fazendas", caption = "Fonte: Nogueira PTS et al. (2025)", colour = "incidência(%)")
+ggsave("mapa_etiopia.png", bg= "white", width = 10 )
+```

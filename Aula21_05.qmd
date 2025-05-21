@@ -1,0 +1,66 @@
+---
+Title: "Coffe rust"
+author: Pedro Thiago Santos Nogueira 
+date: 2025-05-21
+format: html
+warning: FALSE
+message: F
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+
+
+# Apresentação
+
+O conjutno de dados sera o da ferrugem do café na Etiópia, aquivo em nuvem
+
+Importar dados
+
+Usaremos a função gsheet2tbl() do pacote \[gsheet\]
+
+```{r}
+library(gsheet)
+cr <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1bq2N19DcZdtax2fQW9OHSGMR0X2__Z9T/edit?gid=1871397229#gid=1871397229")
+
+
+```
+
+# Visualiza os dados
+
+Usaremos função datatable() do pacote \[DT\]
+
+```{r}
+library(DT)#tabela interativa
+datatable(cr)
+```
+
+# Graficos
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+cr |> 
+  ggplot(aes (lon,lat))+
+  geom_point()
+```
